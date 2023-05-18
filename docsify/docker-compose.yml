@@ -1,0 +1,13 @@
+---
+name: powered-reverse-proxy-docs
+
+services:
+  powered-reverse-proxy-docs:
+    container_name: powered-reverse-proxy-docs
+    image: powered-reverse-proxy-docs:latest
+    build:
+      context: ..
+      dockerfile: ./docsify/Dockerfile
+    ports:
+    - 3000:80
+    restart: unless-stopped
