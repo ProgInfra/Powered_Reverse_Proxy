@@ -7,17 +7,17 @@ http:
           - url: "http://traefik-standalone:8080"
   routers:
     traefik-standalone:
-      service: traefik-standalone-service
+      service: "traefik-standalone-service"
       rule: "Host(`proxy.local.gd`)"
       entrypoints:
-        - web
+        - "web"
       middlewares:
-        - https-redirect
+        - "https-redirect"
     traefik-standalone-secure:
-      service: traefik-standalone-service
+      service: "traefik-standalone-service"
       rule: "Host(`proxy.local.gd`)"
       entrypoints:
-        - websecure
+        - "websecure"
       tls:
       middlewares:
-        - auth
+        - "auth"

@@ -1,0 +1,49 @@
+---
+global:
+  sendAnonymousUsage: false
+  checkNewVersion: true
+
+ping: {}
+
+api:
+  dashboard: true
+  debug: false
+  insecure: true
+
+log:
+  level: "INFO"
+
+providers:
+  file:
+    directory: /etc/traefik/dynamic
+    watch: true
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+    network: "traefik-standalone-wildcard-net"
+
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: "websecure"
+          scheme: "https"
+  websecure:
+    address: ":443"
+    http:
+      tls:
+        certResolver: "letsencrypt"
+        domains:
+          - main: "test.octadia.net"
+            sans:
+              - "*.test.octadia.net"
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: "progower0770@gmail.com"
+      storage: "/acme_data/acme.json"
+      dnsChallenge:
+        provider: "cloudflare"

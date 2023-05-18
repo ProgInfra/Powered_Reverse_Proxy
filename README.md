@@ -69,9 +69,6 @@ If you want you can **develop** this repository :
 - **Development** :
   - `make start-docs-dev` : Start Documentation Website
   - `make stop-docs-dev` : Stop Documentation Website
-- **Traefik** :
-  - `make start-standalone` : Start Traefik Standalone sample
-  - `make stop-standalone` : Stop Traefik Standalone sample
 
 ## Contributing
 

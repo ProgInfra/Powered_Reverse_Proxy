@@ -3,7 +3,7 @@ http:
   middlewares:
     https-redirect:
       redirectScheme:
-        scheme: https
+        scheme: "https"
         permanent: true
     auth:
       basicAuth:

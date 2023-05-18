@@ -1,0 +1,34 @@
+---
+name: traefik-standalone-wildcard
+
+networks:
+  traefik-standalone-wildcard-net:
+    name: traefik-standalone-wildcard-net
+
+volumes:
+  traefik-standalone-wildcard-acme:
+    name: traefik-standalone-wildcard-acme
+
+services:
+  traefik-standalone-wildcard:
+    container_name: traefik-standalone-wildcard
+    image: ${TRAEFIK_IMG}:${TRAEFIK_IMG_VERSION}
+    healthcheck:
+      test: ["CMD-SHELL", "traefik healthcheck --ping"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+    environment:
+      - CF_API_EMAIL=${TRAEFIK_API_EMAIL}
+      - CF_API_KEY=${TRAEFIK_API_KEY}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - traefik-standalone-wildcard-acme:/acme_data:rw
+      - ./data:/etc/traefik:rw
+    networks:
+      - traefik-standalone-wildcard-net
+    ports:
+      - 80:80
+      - 443:443
+    restart: always

@@ -1,0 +1,20 @@
+---
+http:
+  services:
+    traefik-standalone-wildcard-service:
+      loadBalancer:
+        servers:
+          - url: "http://traefik-standalone-wildcard:8080"
+  routers:
+    traefik-standalone-wildcard:
+      service: traefik-standalone-wildcard-service
+      rule: "Host(`proxy.test.octadia.net`)"
+      entrypoints:
+        - web
+    traefik-standalone-wildcard-secure:
+      service: traefik-standalone-wildcard-service
+      rule: "Host(`proxy.test.octadia.net`)"
+      entrypoints:
+        - websecure
+      tls:
+        certResolver: "letsencrypt"

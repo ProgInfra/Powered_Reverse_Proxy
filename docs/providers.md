@@ -20,6 +20,7 @@
   - [sslip.io](https://sslip.io/) : Use of IP to redirect automatically.
   - [nip.io](https://nip.io/) : Use of IP to redirect automatically.
   - [local.gd](https://local.gd/) : Best to serve localhost.
+  - [traefik.me](https://traefik.me/) : Best for Traefik with HTTPS Support.
 - **Self Hosted** :
   - [sslip.io](https://sslip.io/) : Use of IP to redirect automatically.
   - [localtls](https://github.com/Corollarium/localtls)

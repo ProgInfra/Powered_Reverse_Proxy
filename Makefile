@@ -12,11 +12,3 @@ start-docs-dev:
 
 stop-docs-dev:
 	docker compose -f ./docsify/docker-compose.dev.yml down
-
-
-# Traefik
-start-standalone:
-	docker compose -f ./src/standalone/compose.yml up
-
-stop-standalone:
-	docker compose -f ./src/standalone/compose.yml down
