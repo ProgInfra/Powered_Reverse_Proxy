@@ -1,0 +1,23 @@
+---
+http:
+  services:
+    traefik-standalone-service:
+      loadBalancer:
+        servers:
+          - url: "http://traefik-standalone:8080"
+  routers:
+    traefik-standalone:
+      service: traefik-standalone-service
+      rule: "Host(`proxy.local.gd`)"
+      entrypoints:
+        - web
+      middlewares:
+        - https-redirect
+    traefik-standalone-secure:
+      service: traefik-standalone-service
+      rule: "Host(`proxy.local.gd`)"
+      entrypoints:
+        - websecure
+      tls:
+      middlewares:
+        - auth

@@ -1,0 +1,21 @@
+---
+http:
+  services:
+    test-app-service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.99:3000"
+  routers:
+    test-app:
+      service: test-app-service
+      rule: "Host(`test.local.gd`)"
+      entrypoints:
+        - web
+      middlewares:
+        - https-redirect
+    test-app-secure:
+      service: test-app-service
+      rule: "Host(`test.local.gd`)"
+      entrypoints:
+        - websecure
+      tls:

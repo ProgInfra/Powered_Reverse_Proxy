@@ -1,0 +1,31 @@
+---
+name: traefik-standalone
+
+networks:
+  traefik-standalone-net:
+    name: traefik-standalone-net
+
+volumes:
+  traefik-standalone-acme:
+    name: traefik-standalone-acme
+
+services:
+  traefik-standalone:
+    container_name: traefik-standalone
+    image: ${TRAEFIK_IMG}:${TRAEFIK_IMG_VERSION}
+    healthcheck:
+      test: ["CMD-SHELL", "traefik healthcheck --ping"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - traefik-standalone-acme:/acme_data:rw
+      - ./data:/etc/traefik:rw
+    networks:
+      - traefik-standalone-net
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
