@@ -1,0 +1,10 @@
+# Temporary Folder
+tmp
+
+# IDE
+!.vscode/settings.json
+!.vscode/extensions.json
+.vscode
+
+# Docker
+.env
