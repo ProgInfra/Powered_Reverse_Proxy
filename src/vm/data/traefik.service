@@ -1,0 +1,9 @@
+[Unit]
+Description=Traefik Service
+After=network.target
+
+[Service]
+ExecStart=/etc/traefik/launch.sh
+
+[Install]
+WantedBy=multi-user.target

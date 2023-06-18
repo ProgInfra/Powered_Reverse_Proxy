@@ -1,0 +1,44 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+$script = <<-SCRIPT
+# Install Traefik Binary
+export TRAEFIK_VERSION=v2.10.1
+# AMD64 : linux_amd64 / ARM64 : linux_arm64 / ARM32 : linux_armv6
+export TRAEFIK_ARCH=linux_amd64
+
+mkdir /tmp/traefik
+cd /tmp/traefik
+
+wget https://github.com/traefik/traefik/releases/download/${TRAEFIK_VERSION}/traefik_${TRAEFIK_VERSION}_${TRAEFIK_ARCH}.tar.gz
+wget https://github.com/traefik/traefik/releases/download/${TRAEFIK_VERSION}/traefik_${TRAEFIK_VERSION}_checksums.txt
+sha256sum ./traefik_${TRAEFIK_VERSION}_${TRAEFIK_ARCH}.tar.gz
+tar -zxvf traefik_${TRAEFIK_VERSION}_${TRAEFIK_ARCH}.tar.gz
+
+cp /tmp/traefik/traefik /usr/bin/traefik
+chmod +x /usr/bin/traefik
+rm -R /tmp/traefik
+
+# Run Traefik as Service
+chmod +x /etc/traefik/launch.sh
+cp /etc/traefik/traefik.service /etc/systemd/system/
+systemctl enable traefik
+systemctl start traefik
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "debian/bullseye64"
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 512
+    v.cpus = 2
+  end
+
+  config.vm.network "public_network", ip: "192.168.1.42", bridge: "enp5s0"
+  config.vm.network "forwarded_port", guest: 80, host: 8000
+  config.vm.network "forwarded_port", guest: 443, host: 4443
+
+  config.vm.synced_folder "./data", "/etc/traefik"
+
+  config.vm.provision "shell", inline: $script
+end

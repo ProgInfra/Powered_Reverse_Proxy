@@ -37,6 +37,7 @@ This project regroups documentation, tips and example of reverse proxy and how t
 
 - [Ideas](./docs/ideas.md)
 - [DNS Providers](./docs/providers.md)
+- [Traefik in Vagrant VM](./docs/vagrant.md)
 - [Challenge Types (DNS or HTTP Challenge) to grant HTTPS](https://letsencrypt.org/docs/challenge-types/) : DNS Challenge can be used for a private server (without public access) but the HTTP Challenge need your server to be publicly accessible.
 - [DNS Provider with DNS Challenge supported](https://doc.traefik.io/traefik/https/acme/#providers)
 
@@ -47,6 +48,7 @@ You have each prototype and sample of Traefik in the `src` folder with three dif
 - **Standalone** : Use of Traefik as Reverse Proxy for external services (redirect with HTTPS for example)
 - **Docker** : Use of Traefik as Reverse Proxy for local docker container
 - **Swarm** : Use of Traefik as Reverse Proxy for a docker swarm cluster with some services
+- **VM** : Use of Traefik as Reverse Proxy inside a Virtual Machine with Vagrant to use it with other service that already use port 80 and 443
 
 There are used by default with [Cloudflare](https://www.cloudflare.com/) as DNS provider with DNS Challenge method.
 

@@ -1,0 +1,20 @@
+---
+http:
+  services:
+    traefik-service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.150:8080"
+  routers:
+    traefik:
+      service: "traefik-service"
+      rule: "Host(`traefik.192.168.1.42.sslip.io`)"
+      entrypoints:
+        - "web"
+    traefik-secure:
+      service: "traefik-service"
+      rule: "Host(`traefik.192.168.1.42.sslip.io`)"
+      entrypoints:
+        - "websecure"
+      tls:
+        certResolver: "letsencrypt"
