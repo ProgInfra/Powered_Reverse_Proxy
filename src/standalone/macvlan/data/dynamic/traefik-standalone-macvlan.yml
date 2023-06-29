@@ -1,0 +1,21 @@
+---
+http:
+  services:
+    traefik-standalone-macvlan-service:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.1.150:8080'
+  routers:
+    traefik-standalone-macvlan:
+      service: 'traefik-standalone-macvlan-service'
+      rule: 'Host(`proxy.192.168.1.150.sslip.io`)'
+      entrypoints:
+        - 'web'
+      middlewares:
+        - 'https-redirect'
+    traefik-standalone-macvlan-secure:
+      service: 'traefik-standalone-macvlan-service'
+      rule: 'Host(`proxy.192.168.1.150.sslip.io`)'
+      entrypoints:
+        - 'websecure'
+      tls:

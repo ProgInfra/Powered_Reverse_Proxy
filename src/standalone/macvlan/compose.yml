@@ -1,0 +1,36 @@
+---
+name: traefik-standalone-macvlan
+
+networks:
+  traefik-standalone-macvlan-net:
+    name: traefik-standalone-macvlan-net
+    driver: macvlan
+    driver_opts:
+      parent: enp5s0
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24
+          gateway: 192.168.1.1
+
+volumes:
+  traefik-standalone-macvlan-acme:
+    name: traefik-standalone-macvlan-acme
+
+services:
+  traefik-standalone-macvlan:
+    container_name: traefik-standalone-macvlan
+    image: ${TRAEFIK_IMG}:${TRAEFIK_IMG_VERSION}
+    healthcheck:
+      test: ["CMD-SHELL", "traefik healthcheck --ping"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - traefik-standalone-macvlan-acme:/acme_data:rw
+      - ./data:/etc/traefik:rw
+    networks:
+      traefik-standalone-macvlan-net:
+        ipv4_address: 192.168.1.150
+    restart: 'no'
