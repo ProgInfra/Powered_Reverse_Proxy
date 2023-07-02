@@ -1,1 +1,23 @@
-TODO
+---
+networks:
+  captain-overlay-network:
+    name: captain-overlay-network
+    external: true
+  swarm-macvlan:
+    name: swarm-macvlan
+    external: true
+
+volumes:
+  traefik-test-acme:
+    name: traefik-test-acme
+
+services:
+  traefik-test:
+    image: traefik:2.10
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - traefik-test-acme:/acme_data:rw
+      - ./data:/etc/traefik:rw
+    networks:
+      - swarm-macvlan
+      - captain-overlay-network
