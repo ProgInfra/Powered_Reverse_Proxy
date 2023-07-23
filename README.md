@@ -38,8 +38,9 @@ This project regroups documentation, tips and example of reverse proxy and how t
 - [Ideas](./docs/ideas.md)
 - [DNS Providers](./docs/providers.md)
 - [Traefik in Vagrant VM](./docs/vagrant.md)
-- [Traefik with MacLAN Network](./docs/macvlan.md)
+- [Traefik with MacVLAN Network](./docs/macvlan.md)
 - [Traefik with Docker Label](./docs/docker.md)
+- [Traefik with Docker Swarm](./docs/swarm.md)
 - [Challenge Types (DNS or HTTP Challenge) to grant HTTPS](https://letsencrypt.org/docs/challenge-types/) : DNS Challenge can be used for a private server (without public access) but the HTTP Challenge need your server to be publicly accessible.
 - [DNS Provider with DNS Challenge supported](https://doc.traefik.io/traefik/https/acme/#providers)
 

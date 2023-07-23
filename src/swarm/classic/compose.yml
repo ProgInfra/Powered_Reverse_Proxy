@@ -1,1 +1,19 @@
-TODO
+---
+networks:
+  traefik-net:
+    name: traefik-net
+    attachable: true
+
+volumes:
+  traefik-swarm-acme:
+    name: traefik-swarm-acme
+
+services:
+  traefik-swarm:
+    image: ${TRAEFIK_IMG}:${TRAEFIK_IMG_VERSION}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - traefik-swarm-acme:/acme_data:rw
+      - ./data:/etc/traefik:rw
+    networks:
+      - traefik-net

@@ -1,1 +1,59 @@
-TODO Traefik with no file config and label usage
+---
+name: traefik-standalone
+
+networks:
+  traefik-standalone-net:
+    name: traefik-standalone-net
+
+volumes:
+  traefik-standalone-acme:
+    name: traefik-standalone-acme
+
+services:
+  traefik-standalone:
+    container_name: traefik-standalone
+    image: ${TRAEFIK_IMG}:${TRAEFIK_IMG_VERSION}
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.services.traefik-standalone-service.loadbalancer.server.port=8080'
+
+      - 'traefik.http.routers.traefik-standalone.rule=Host(`traefik.local.gd`)'
+      - 'traefik.http.routers.traefik-standalone.entrypoints=web'
+      - 'traefik.http.routers.traefik-standalone.middlewares=https-redirect@file'
+
+      - 'traefik.http.routers.traefik-standalone-secure.rule=Host(`traefik.local.gd`)'
+      - 'traefik.http.routers.traefik-standalone-secure.entrypoints=websecure'
+      - 'traefik.http.routers.traefik-standalone-secure.tls=true'
+      - 'traefik.http.routers.traefik-standalone-secure.service=traefik-standalone-service'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - traefik-standalone-acme:/acme_data:rw
+      - ./data:/etc/traefik:rw
+    networks:
+      - traefik-standalone-net
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    restart: always
+
+  whoami-standalone:
+    container_name: whoami-standalone
+    image: ${WHOAMI_IMG}:${WHOAMI_IMG_VERSION}
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.services.whoami-standalone-service.loadbalancer.server.port=80'
+
+      - 'traefik.http.routers.whoami-standalone.rule=Host(`whoami.local.gd`)'
+      - 'traefik.http.routers.whoami-standalone.entrypoints=web'
+      - 'traefik.http.routers.whoami-standalone.middlewares=https-redirect@file'
+
+      - 'traefik.http.routers.whoami-standalone-secure.rule=Host(`whoami.local.gd`)'
+      - 'traefik.http.routers.whoami-standalone-secure.entrypoints=websecure'
+      - 'traefik.http.routers.whoami-standalone-secure.tls=true'
+      - 'traefik.http.routers.whoami-standalone-secure.service=whoami-standalone-service'
+    networks:
+      - traefik-standalone-net
+    ports:
+      - 8081:80
+    restart: always
