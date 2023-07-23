@@ -28,11 +28,13 @@ Go to the `src/swarm/macvlan` to know how to use it.
 
 ```bash
 # Create Network MacVLAN configuration (need IP Range ! Here it's just 192.168.1.152)
-docker network create --config-only --subnet 192.168.1.0/24 -o parent=enp0s31f6 --ip-range 192.168.1.151/32 collabnet
+docker network create --config-only --subnet 192.168.1.0/24 -o parent=enp0s31f6 --ip-range 192.168.1.151/31 traefik-macvlan-config-net
 # Create Network MacVLAN for Swarm attachable based on config
-docker network create --driver=macvlan --scope swarm --config-from collabnet --attachable swarm-macvlan
+docker network create --driver=macvlan --scope swarm --config-from traefik-macvlan-config-net --attachable traefik-macvlan-swarm-net
 # Deploy Treafik service
 docker stack deploy -c compose.yml traefik
 ```
+
+We use it with CapRover [here](https://proginfra.gitlab.io/infra_services/#/docs/caprover).
 
 Here some [Documentation](https://collabnix.com/docker-17-06-swarm-mode-now-with-macvlan-support/)

@@ -3,8 +3,8 @@ networks:
   captain-overlay-network:
     name: captain-overlay-network
     external: true
-  swarm-macvlan:
-    name: swarm-macvlan
+  traefik-macvlan-swarm-net:
+    name: traefik-macvlan-swarm-net
     external: true
 
 volumes:
@@ -32,7 +32,7 @@ services:
       - traefik-swarm-macvlan-acme:/acme_data:rw
       - ./data:/etc/traefik:rw
     networks:
-      - swarm-macvlan
+      - traefik-macvlan-swarm-net
       - captain-overlay-network
     ports:
       - 80:80
